@@ -27,7 +27,7 @@ elsif memo_type == 2
         puts "3 → プログラムを終了する"
         puts "注意： 上書き・追尾後はやり直せません"
         edit_type = gets.to_i
-        if (1..3) === edit_type
+        if (1..2) === edit_type
             puts "メモしたい内容を入力してください"
             puts "完了したら Ctrl + D を押します"
             input = readlines
@@ -45,6 +45,8 @@ elsif memo_type == 2
             CSV.foreach("#{name}.csv") do |row|
                 puts row
             end
+        elsif edit_type == 3
+            puts "操作を中断しました"
         else
             puts "該当する選択肢がありませんでした"
         end
