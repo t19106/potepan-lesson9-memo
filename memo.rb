@@ -21,31 +21,35 @@ if memo_type == 1
 elsif memo_type == 2
     puts "拡張子を除いたファイルを入力してください"
     name = gets.chomp
-    unless File.exist?("#{name}.csv")
-        puts "該当するメモファイルが存在しません"
-    else
+    if File.exist?("#{name}.csv")
         puts "編集方法を入力してください"
         puts "1 → メモの内容を全て上書きする / 2 → メモに追記する"
         puts "3 → プログラムを終了する"
         puts "注意： 上書き・追尾後はやり直せません"
         edit_type = gets.to_i
-        puts "メモしたい内容を入力してください"
-        puts "完了したら Ctrl + D を押します"
-        input = readlines
-        if edit_type == 1
-            CSV.open("#{name}.csv",'w') do |test|
-                test << input
+        if (1..3) === edit_type
+            puts "メモしたい内容を入力してください"
+            puts "完了したら Ctrl + D を押します"
+            input = readlines
+            if edit_type == 1
+                CSV.open("#{name}.csv",'w') do |test|
+                    test << input
+                end
+            elsif edit_type == 2
+                CSV.open("#{name}.csv",'a') do |test|
+                    test << input
+                end
             end
-        elsif edit_type == 2
-            CSV.open("#{name}.csv",'a') do |test|
-                test << input
+            puts "下記の内容を保存しました："
+            puts "----------"
+            CSV.foreach("#{name}.csv") do |row|
+                puts row
             end
+        else
+            puts "該当する選択肢がありませんでした"
         end
-        puts "下記の内容を保存しました："
-        puts "----------"
-        CSV.foreach("#{name}.csv") do |row|
-            puts row
-        end
+    else
+        puts "該当するメモファイルが存在しません"
     end
 elsif memo_type == 3
     puts "拡張子を除いたファイルを入力してください"
